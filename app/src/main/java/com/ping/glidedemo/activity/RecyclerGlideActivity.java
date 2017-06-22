@@ -3,10 +3,11 @@ package com.ping.glidedemo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -14,15 +15,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
-import android.widget.Toast;
+import android.view.animation.TranslateAnimation;
 
 import com.google.gson.Gson;
 import com.ping.glidedemo.R;
 import com.ping.glidedemo.adapter.MeiziAdapter;
-import com.ping.glidedemo.adapter.MeiziAdapter0;
+import com.ping.glidedemo.adapter.ImageAdapter;
 import com.ping.glidedemo.beans.Meizi;
-import com.ping.glidedemo.beans.Meizi0;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class RecyclerGlideActivity extends AppCompatActivity {
 
     private List<Meizi> data = new ArrayList<>();
     private List<String> data0 = new ArrayList<String>();
-    private MeiziAdapter0 mAdapter0;
+    private ImageAdapter mAdapter0;
     private MeiziAdapter mAdapter;
     private Context mContext = this;
     public static final String EXTRA_POS = "com.ping.glidedemo.position";
@@ -74,19 +75,19 @@ public class RecyclerGlideActivity extends AppCompatActivity {
                 go1();
                 break;
             case R.id.action_listview:
-                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data0);
+                mAdapter0 = new ImageAdapter(this.getApplicationContext(), data0);
                 mRecyclerMm.setLayoutManager(new LinearLayoutManager(this));
                 mRecyclerMm.setAdapter(mAdapter0);
                 go();
                 break;
             case R.id.action_gridview:
-                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data0);
+                mAdapter0 = new ImageAdapter(this.getApplicationContext(), data0);
                 mRecyclerMm.setLayoutManager(new GridLayoutManager(this, 3));
                 mRecyclerMm.setAdapter(mAdapter0);
                 go();
                 break;
             case R.id.action_hor_gridview:
-                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data0);
+                mAdapter0 = new ImageAdapter(this.getApplicationContext(), data0);
                 mRecyclerMm.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
                 mRecyclerMm.setAdapter(mAdapter0);
                 go();
@@ -116,8 +117,8 @@ public class RecyclerGlideActivity extends AppCompatActivity {
                 "http://img.my.csdn.net/uploads/201308/31/1377949441_5454.jpg",
                 "http://img.my.csdn.net/uploads/201308/31/1377949454_6367.jpg",
                 "http://img.my.csdn.net/uploads/201308/31/1377949442_4562.jpg"};
-        for(int j=0;j<2;j++){
-            for(int i=0;i<aa.length;i++){
+        for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < aa.length; i++) {
                 data0.add(aa[i]);
             }
         }
@@ -234,29 +235,32 @@ public class RecyclerGlideActivity extends AppCompatActivity {
 
     public void go() {
 
-        mAdapter0.setOnItemClickListener(new MeiziAdapter0.OnItemClickListener() {
+        mAdapter0.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 //                Toast.makeText(RecyclerGlideActivity.this,"ddd",Toast.LENGTH_SHORT).show();
                 //设置缩放动画
-                final ScaleAnimation animation = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                animation.setDuration(500);
-                animation.setFillAfter(true);
-                view.setAnimation(animation);
+//                final ScaleAnimation animation = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f,
+//                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                animation.setDuration(500);
+//                animation.setFillAfter(true);
+                Animation animation = new TranslateAnimation(0, 100, 0, 100);
+//                animation.setDuration(1000);
+
                 Intent intent = new Intent(RecyclerGlideActivity.this, PicActivity.class);
-                intent.putExtra(EXTRA_POS, position);
-
                 startActivity(intent);
-
-                //延迟跳转
-//                Timer time=new Timer();
-//                TimerTask tk=new TimerTask(){
-//                    @Override
-//                    public void run(){
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                };time.schedule(tk,2000);
+//                overridePendingTransition(R.anim.translate2, R.anim.translate2);
+                overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+               /* //导入带有Android前缀的handler库！
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(RecyclerGlideActivity.this, PicActivity.class);
+                        startActivity(intent);
+                    }
+                }, 2000);
+            }
+        });*/
             }
         });
     }
@@ -267,11 +271,6 @@ public class RecyclerGlideActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
 //                Toast.makeText(RecyclerGlideActivity.this,"ddd",Toast.LENGTH_SHORT).show();
-                //设置缩放动画
-                final ScaleAnimation animation = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                animation.setDuration(500);
-                animation.setFillAfter(true);
-                view.setAnimation(animation);
                 Intent intent = new Intent(RecyclerGlideActivity.this, PicActivity.class);
                 intent.putExtra(EXTRA_POS, position);
 
@@ -280,5 +279,4 @@ public class RecyclerGlideActivity extends AppCompatActivity {
             }
         });
     }
-
 }
