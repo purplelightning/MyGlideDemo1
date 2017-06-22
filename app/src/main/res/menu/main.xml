@@ -25,5 +25,4 @@
         android:title="StaggeredGridView"
         app:showAsAction="never"/>
 
-
 </menu>

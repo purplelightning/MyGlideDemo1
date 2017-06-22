@@ -38,10 +38,11 @@ import butterknife.ButterKnife;
 public class RecyclerGlideActivity extends AppCompatActivity {
 
     private List<Meizi> data = new ArrayList<>();
+    private List<String> data0 = new ArrayList<String>();
     private MeiziAdapter0 mAdapter0;
     private MeiziAdapter mAdapter;
-    private Context mContext=this;
-    public static final String EXTRA_POS="com.ping.glidedemo.position";
+    private Context mContext = this;
+    public static final String EXTRA_POS = "com.ping.glidedemo.position";
 
     @BindView(R.id.recycler_mm)
     RecyclerView mRecyclerMm;
@@ -53,28 +54,19 @@ public class RecyclerGlideActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initData();
-
-
-
-//        mAdapter = new MeiziAdapter0(this.getApplicationContext(), data);
-//        mRecyclerMm.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-//        mRecyclerMm.setAdapter(mAdapter);
-//
-//        go();
-//                Intent intent = new Intent(RecyclerGlideActivity.this, PicActivity.class);
-//                startActivity(intent);
+        initData0();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main,menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id=item.getItemId();
-        switch(id){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
             case R.id.action_staggerdview:
                 mAdapter = new MeiziAdapter(this.getApplicationContext(), data);
                 mRecyclerMm.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -82,25 +74,53 @@ public class RecyclerGlideActivity extends AppCompatActivity {
                 go1();
                 break;
             case R.id.action_listview:
-                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data);
+                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data0);
                 mRecyclerMm.setLayoutManager(new LinearLayoutManager(this));
                 mRecyclerMm.setAdapter(mAdapter0);
                 go();
                 break;
             case R.id.action_gridview:
-                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data);
-                mRecyclerMm.setLayoutManager(new GridLayoutManager(this,3));
+                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data0);
+                mRecyclerMm.setLayoutManager(new GridLayoutManager(this, 3));
                 mRecyclerMm.setAdapter(mAdapter0);
                 go();
                 break;
             case R.id.action_hor_gridview:
-                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data);
-                mRecyclerMm.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.HORIZONTAL));
+                mAdapter0 = new MeiziAdapter0(this.getApplicationContext(), data0);
+                mRecyclerMm.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
                 mRecyclerMm.setAdapter(mAdapter0);
                 go();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initData0() {
+        String[] aa = new String[]{
+                "http://img.my.csdn.net/uploads/201309/01/1378037235_3453.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037235_7476.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037235_9280.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037234_3539.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037234_6318.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037194_2965.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037193_1687.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037193_1286.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037192_8379.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037178_9374.jpg",
+                "http://img.my.csdn.net/uploads/201309/01/1378037177_1254.jpg",
+                "http://img.my.csdn.net/uploads/201308/31/1377949480_4490.jpg",
+                "http://img.my.csdn.net/uploads/201308/31/1377949455_6792.jpg",
+                "http://img.my.csdn.net/uploads/201308/31/1377949455_6345.jpg",
+                "http://img.my.csdn.net/uploads/201308/31/1377949442_4553.jpg",
+                "http://img.my.csdn.net/uploads/201308/31/1377949441_8987.jpg",
+                "http://img.my.csdn.net/uploads/201308/31/1377949441_5454.jpg",
+                "http://img.my.csdn.net/uploads/201308/31/1377949454_6367.jpg",
+                "http://img.my.csdn.net/uploads/201308/31/1377949442_4562.jpg"};
+        for(int j=0;j<2;j++){
+            for(int i=0;i<aa.length;i++){
+                data0.add(aa[i]);
+            }
+        }
     }
 
     private void initData() {
@@ -210,22 +230,21 @@ public class RecyclerGlideActivity extends AppCompatActivity {
             Meizi meizi = gson.fromJson(pic[x], Meizi.class);
             data.add(meizi);
         }
-
-
     }
-    public void go(){
+
+    public void go() {
 
         mAdapter0.setOnItemClickListener(new MeiziAdapter0.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 //                Toast.makeText(RecyclerGlideActivity.this,"ddd",Toast.LENGTH_SHORT).show();
                 //设置缩放动画
-                final ScaleAnimation animation=new ScaleAnimation(1.0f,1.1f,1.0f,1.1f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                final ScaleAnimation animation = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 animation.setDuration(500);
                 animation.setFillAfter(true);
                 view.setAnimation(animation);
                 Intent intent = new Intent(RecyclerGlideActivity.this, PicActivity.class);
-                intent.putExtra(EXTRA_POS,position);
+                intent.putExtra(EXTRA_POS, position);
 
                 startActivity(intent);
 
@@ -241,19 +260,20 @@ public class RecyclerGlideActivity extends AppCompatActivity {
             }
         });
     }
-    public void go1(){
+
+    public void go1() {
 
         mAdapter.setOnItemClickListener(new MeiziAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 //                Toast.makeText(RecyclerGlideActivity.this,"ddd",Toast.LENGTH_SHORT).show();
                 //设置缩放动画
-                final ScaleAnimation animation=new ScaleAnimation(1.0f,1.1f,1.0f,1.1f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                final ScaleAnimation animation = new ScaleAnimation(1.0f, 1.1f, 1.0f, 1.1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 animation.setDuration(500);
                 animation.setFillAfter(true);
                 view.setAnimation(animation);
                 Intent intent = new Intent(RecyclerGlideActivity.this, PicActivity.class);
-                intent.putExtra(EXTRA_POS,position);
+                intent.putExtra(EXTRA_POS, position);
 
                 startActivity(intent);
 

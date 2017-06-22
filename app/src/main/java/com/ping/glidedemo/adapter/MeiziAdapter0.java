@@ -41,7 +41,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 public class MeiziAdapter0 extends RecyclerView.Adapter<MeiziAdapter0.ViewHolder>{
 
     private Context mContext;
-    private List<Meizi> mData;
+    private List<String> mData;
     private LayoutInflater mInflater;
 
     public interface OnItemClickListener
@@ -56,7 +56,7 @@ public class MeiziAdapter0 extends RecyclerView.Adapter<MeiziAdapter0.ViewHolder
         this.mListener=listener;
     }
 
-    public MeiziAdapter0(Context context, List<Meizi> data) {
+    public MeiziAdapter0(Context context, List<String> data) {
         mContext = context;
         mData = data;
         mInflater=LayoutInflater.from(context);
@@ -120,7 +120,7 @@ public class MeiziAdapter0 extends RecyclerView.Adapter<MeiziAdapter0.ViewHolder
         display.getMetrics(dm);
         final int screenWidth = dm.widthPixels;
 //        String url = mData.get(position).getResults().get(0).getUrl();
-        String url = mData.get(position).getResults().get(0).getUrl();
+        String url = mData.get(position);
 //        Glide.with(mContext).load(url).asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
 //                .into(new SimpleTarget<Bitmap>
 //                        (screenWidth, screenWidth) {
